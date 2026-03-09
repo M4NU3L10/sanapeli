@@ -1,0 +1,14 @@
+{
+  "name": "Oma paketti – Esimerkki",
+  "sourceLanguage": "Suomi",
+  "targetLanguage": "Englanti",
+  "sourceFlagEmoji": "🇫🇮",
+  "targetFlagEmoji": "🇬🇧",
+  "words": [
+    { "source": "koira",   "target": "the dog",   "article": "the", "word": "dog" },
+    { "source": "kissa",   "target": "the cat",   "article": "the", "word": "cat" },
+    { "source": "talo",    "target": "the house",  "article": "the", "word": "house" },
+    { "source": "juosta",  "target": "to run",    "article": null,  "word": "run" },
+    { "source": "kaunis",  "target": "beautiful", "article": null,  "word": "beautiful" }
+  ]
+}
