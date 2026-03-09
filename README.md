@@ -1,69 +1,70 @@
-# 🌍 Sanastopeli — Windows-sovellus
+# 🌍 Sanastopeli
 
-Sanastoa harjoitteleva Electron-sovellus Windowsille. Tukee useita kielipareja, omien sanapakettien lisäämistä ja tallentaa edistymisen automaattisesti.
+> Harjoittele sanastoa eri kielillä — kaunis ja helppokäyttöinen Electron-sovellus Windowsille.
+
+**[⬇️ Lataa uusin versio](https://github.com/M4NU3L10/sanapeli/releases/latest)** · **[🌐 Kotisivu](https://m4nu3l10.github.io/sanapeli)**
 
 ---
 
-## 📦 Vaatimukset
+## ✨ Ominaisuudet
+
+- 🎮 **Neljä pelimuotoa** — kirjoitus, monivalinta, kääntökortit ja rakennuspeli
+- 📦 **Omat sanapakettit** — lisää omia JSON-paketteja helposti
+- 💾 **Automaattinen edistymisen tallennus** per paketti
+- 🎨 **Teemavaihtoehdot** — useita värimaailmoja
+- 🪟 **Windows-asennusohjelma** tai kannettava versio (ei asennusta)
+
+---
+
+## ⬇️ Asennus (loppukäyttäjä)
+
+1. Mene [Releases-sivulle](https://github.com/M4NU3L10/sanapeli/releases/latest)
+2. Lataa `Sanastopeli Setup x.x.x.exe` (asennusohjelma) tai `Sanastopeli x.x.x.exe` (kannettava)
+3. Käynnistä asennus ja seuraa ohjeita
+
+**Vaatimukset:** Windows 10 tai uudempi (x64)
+
+---
+
+## 🛠️ Kehittäjälle
+
+### Vaatimukset
 
 - **Node.js** 18 tai uudempi → https://nodejs.org/
 - **npm** (tulee Node.js:n mukana)
-- **Windows 10 tai uudempi** (x64)
 
----
-
-## 🚀 Käyttöönotto
-
-### 1. Asenna riippuvuudet
+### Käyttöönotto
 
 ```bat
+git clone https://github.com/M4NU3L10/sanapeli.git
 cd sanapeli
 npm install
 ```
 
-### 2. Testaa sovellus kehitystilassa
+### Komennot
 
-```bat
-npm start
-```
+| Komento | Kuvaus |
+|---------|--------|
+| `npm start` | Käynnistä kehitystilassa |
+| `npm run dev` | Käynnistä kehitystilassa + DevTools |
+| `npm run dist:win` | Luo Windows-asennusohjelma (`dist/`-kansioon) |
 
-Sovellus avautuu välittömästi. Voit käynnistää DevToolsin lisäämällä `--dev`-lipun:
-
-```bat
-npm run dev
-```
-
-### 3. Luo Windows-asennusohjelma
-
-```bat
-npm run dist:win
-```
-
-Tämä:
-1. Luo kuvakkeen (`assets/icon.ico` ja `icon.png`)
-2. Paketoi Electron-sovelluksen
-3. Luo `dist/`-kansioon:
-   - `Sanastopeli Setup x.x.x.exe` — asennusohjelma
-   - `Sanastopeli x.x.x.exe` — kannettava versio (ei asennusta)
+`dist:win` luo automaattisesti kuvakkeen ja paketoi sovelluksen.
 
 ---
 
 ## 📚 Sanapakettien lisääminen
 
-### Missä paketit sijaitsevat?
-
 Paketit ladataan kahdesta paikasta:
 
 | Kansio | Sisältö |
 |--------|---------|
-| `packages/` (sovelluksen hakemistossa) | Oletuspaketit, tulevat asennukseen mukaan |
+| `packages/` (sovelluksen hakemistossa) | Oletuspaketit, mukana asennuksessa |
 | `Omat tiedostot\Sanastopeli\Sanapakettit\` | **Omat pakettisi** — lisää tänne |
 
-Pääset käyttäjän kansioon sovelluksesta: **📂 Avaa kansio** -painike.
+Pääset käyttäjän kansioon sovelluksesta **📂 Avaa kansio** -painikkeella.
 
 ### Paketin rakenne (JSON)
-
-Luo `.json`-tiedosto seuraavalla rakenteella:
 
 ```json
 {
@@ -73,38 +74,25 @@ Luo `.json`-tiedosto seuraavalla rakenteella:
   "sourceFlagEmoji": "🇫🇮",
   "targetFlagEmoji": "🇫🇷",
   "words": [
-    {
-      "source": "punainen",
-      "target": "rouge",
-      "article": null,
-      "word": "rouge"
-    },
-    {
-      "source": "sininen",
-      "target": "le bleu",
-      "article": "le",
-      "word": "bleu"
-    }
+    { "source": "punainen", "target": "rouge",    "article": null, "word": "rouge" },
+    { "source": "sininen",  "target": "le bleu",  "article": "le", "word": "bleu"  }
   ]
 }
 ```
 
-#### Kenttien selitykset
-
 | Kenttä | Tyyppi | Kuvaus |
 |--------|--------|--------|
-| `name` | string | Paketin nimi (näkyy valintanäytöllä) |
-| `sourceLanguage` | string | Lähdekielen nimi suomeksi |
-| `targetLanguage` | string | Kohdekielen nimi suomeksi |
-| `sourceFlagEmoji` | string | Lippuemoji (esim. `"🇫🇮"`) |
-| `targetFlagEmoji` | string | Lippuemoji (esim. `"🇫🇷"`) |
-| `words` | array | Sanaparit |
+| `name` | string | Paketin nimi |
+| `sourceLanguage` | string | Lähdekielen nimi |
+| `targetLanguage` | string | Kohdekielen nimi |
+| `sourceFlagEmoji` | string | Lippuemoji, esim. `"🇫🇮"` |
+| `targetFlagEmoji` | string | Lippuemoji, esim. `"🇫🇷"` |
 | `words[].source` | string | Sana lähdekielellä |
 | `words[].target` | string | Täydellinen käännös (artikkeli + sana) |
-| `words[].article` | string\|null | Artikkeli (`"der"`, `"die"`, `"das"`, `"le"`, `"la"`…) tai `null` |
-| `words[].word` | string | Pelkkä sana ilman artikkelia (käytetään rakennusmoodissa) |
+| `words[].article` | string\|null | Artikkeli (`"der"`, `"le"` jne.) tai `null` |
+| `words[].word` | string | Pelkkä sana ilman artikkelia |
 
-> **Vinkki:** Artikkeli ei ole pakollinen — kirjoita `article: null` ja `word` samaksi kuin `target`.
+Esimerkki löytyy tiedostosta [`packages/esimerkki-paketti.json`](packages/esimerkki-paketti.json).
 
 ---
 
@@ -112,38 +100,37 @@ Luo `.json`-tiedosto seuraavalla rakenteella:
 
 | Muoto | Kuvaus |
 |-------|--------|
-| **✏️ Kirjoitus** | Kirjoita käännös; artikkeli anteeksi (saa pisteen ilman sitä) |
+| **✏️ Kirjoitus** | Kirjoita käännös — artikkeli anteeksi |
 | **🔡 Monivalinta** | Valitse neljästä vaihtoehdosta |
-| **🪧 Kääntökortit** | Kortti: käännä, arvioi itse. Nuolinäppäimet ← → toimivat |
+| **🪧 Kääntökortit** | Käännä kortti, arvioi itse. Näppäimet ← → |
 | **🏗️ Rakenna** | Kokoa sana kirjainpaloista |
 
 ---
 
-## 💾 Edistymisen tallentaminen
+## 💾 Edistymistiedot
 
-Sovellus tallentaa edistymisen automaattisesti jokaisen pelisession jälkeen:
-
-- **Sijainti:** `%APPDATA%\Sanastopeli\progress.json`
-- **Tallennettavat tiedot:** pelattujen kierrosten määrä, oikeiden vastausten määrä, viimeisin peliaika per paketti
+Tallennetaan automaattisesti: `%APPDATA%\Sanastopeli\progress.json`
 
 ---
 
-## 🔧 Rakenne
+## 🔧 Projektirakenne
 
 ```
 sanapeli/
-├── main.js             ← Electron pääprosessi
-├── preload.js          ← Turvallinen IPC-silta
-├── index.html          ← Käyttöliittymä
-├── package.json        ← Riippuvuudet ja build-asetukset
+├── main.js                  ← Electron pääprosessi
+├── preload.js               ← Turvallinen IPC-silta
+├── index.html               ← Käyttöliittymä (koko sovellus)
+├── package.json             ← Riippuvuudet ja build-asetukset
 ├── assets/
-│   ├── icon.svg        ← Kuvakkeen lähde
-│   ├── icon.png        ← (generoitu automaattisesti)
-│   └── icon.ico        ← (generoitu automaattisesti)
-├── packages/           ← Oletussanapaketit (tulevat asennuksen mukaan)
-│   ├── suomi-saksa-asuminen.json
+│   ├── icon.svg             ← Kuvakkeen lähde
+│   ├── icon.ico             ← (generoitu automaattisesti)
+│   └── icon.png             ← (generoitu automaattisesti)
+├── packages/
 │   └── esimerkki-paketti.json
 ├── scripts/
 │   └── generate-icon.js
-└── build/
+├── build/
+│   └── installer.nsh
+└── docs/                    ← GitHub Pages -kotisivu
+    └── index.html
 ```

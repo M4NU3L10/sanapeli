@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanastopeli – Harjoittele sanastoa</title>
+  <meta name="description" content="Kaunis ja helppokäyttöinen sanastoharjoittelusovellus Windowsille. Neljä pelimuotoa, omat sanapakettit, automaattinen edistymisen tallennus." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #a855f7;
+      --pink:   #ec4899;
+      --blue:   #60a5fa;
+      --bg:     #1a1a2e;
+      --glass:  rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.10);
+      --tp:     rgba(255,255,255,0.92);
+      --ts:     rgba(255,255,255,0.50);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-attachment: fixed;
+      color: var(--tp);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- Orbs --- */
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+      animation: float 20s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 600px; height: 600px; top: -150px; left: -150px; background: radial-gradient(circle, #a855f7, transparent 70%); }
+    .orb-2 { width: 500px; height: 500px; bottom: -100px; right: -120px; background: radial-gradient(circle, #ec4899, transparent 70%); animation-duration: 26s; animation-delay: -9s; }
+    .orb-3 { width: 380px; height: 380px; top: 40%; left: 50%; background: radial-gradient(circle, #60a5fa, transparent 70%); animation-duration: 23s; animation-delay: -5s; }
+
+    @keyframes float {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.08); }
+    }
+
+    /* --- Layout --- */
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* --- Nav --- */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15, 8, 35, 0.65); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+    }
+    nav .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(130deg, var(--pink), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    nav .spacer { flex: 1; }
+    nav a.gh-link {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 600; color: var(--ts); text-decoration: none;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
+      background: var(--glass); transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    nav a.gh-link:hover { color: var(--tp); border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.10); }
+    nav a.gh-link svg { flex-shrink: 0; }
+
+    /* --- Hero --- */
+    .hero { padding: 90px 0 70px; text-align: center; }
+    .hero-badge {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple);
+      background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 72px); font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 20px;
+      background: linear-gradient(130deg, #fff 30%, var(--purple) 70%, var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { font-size: 18px; color: var(--ts); max-width: 520px; margin: 0 auto 44px; line-height: 1.6; }
+
+    .btn-group { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 14px;
+      padding: 14px 28px; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(130deg, var(--purple), var(--pink));
+      color: #fff; box-shadow: 0 8px 32px rgba(168,85,247,0.40);
+    }
+    .btn-primary:hover { box-shadow: 0 12px 40px rgba(168,85,247,0.55); }
+    .btn-secondary {
+      background: var(--glass); border: 1px solid var(--border); color: var(--tp);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.10); }
+
+    .version-note { margin-top: 20px; font-size: 12px; color: var(--ts); }
+    .version-note a { color: var(--purple); text-decoration: none; }
+    .version-note a:hover { text-decoration: underline; }
+
+    /* --- Features --- */
+    .section { padding: 70px 0; }
+    .section-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple); margin-bottom: 14px; text-align: center;
+    }
+    .section-heading {
+      font-size: clamp(28px, 5vw, 40px); font-weight: 800; text-align: center;
+      margin-bottom: 48px; letter-spacing: -0.02em;
+    }
+
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .feature-card {
+      background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
+      padding: 28px 24px; transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-3px); }
+    .feature-icon { font-size: 32px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--ts); line-height: 1.55; }
+
+    /* --- Install steps --- */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px;
+    }
+    .step-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+    }
+    .step-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .step-body p { font-size: 14px; color: var(--ts); line-height: 1.5; }
+    .step-body a { color: var(--purple); text-decoration: none; }
+    .step-body a:hover { text-decoration: underline; }
+
+    /* --- CTA --- */
+    .cta { text-align: center; padding: 80px 0 100px; }
+    .cta h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .cta p { font-size: 16px; color: var(--ts); margin-bottom: 40px; }
+
+    /* --- Footer --- */
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 24px;
+      text-align: center; font-size: 13px; color: var(--ts);
+    }
+    footer a { color: var(--purple); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 60px 0 50px; }
+      .btn { padding: 12px 22px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <span class="logo">Sanastopeli</span>
+  <div class="spacer"></div>
+  <a class="gh-link" href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- Hero -->
+<div class="container">
+  <section class="hero">
+    <div class="hero-badge">🌍 Windows-sovellus</div>
+    <h1>Harjoittele sanastoa<br/>hauskasti</h1>
+    <p>Neljä erilaista pelimuotoa, omat sanapakettit ja automaattinen edistymisen tallennus — kaikki yhdessä kauniissa sovelluksessa.</p>
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://github.com/M4NU3L10/sanapeli/releases/latest" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Lataa Sanastopeli
+      </a>
+      <a class="btn btn-secondary" href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        Lähdekoodi
+      </a>
+    </div>
+    <p class="version-note">Windows 10/11 (x64) · Ilmainen · <a href="https://github.com/M4NU3L10/sanapeli/releases">Kaikki versiot</a></p>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <p class="section-title">Ominaisuudet</p>
+    <h2 class="section-heading">Kaikki mitä tarvitset</h2>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">✏️</div>
+        <h3>Kirjoitusharjoitus</h3>
+        <p>Kirjoita käännös itse. Artikkeli anteeksi — saat oikein-pisteen ilmankin.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔡</div>
+        <h3>Monivalinta</h3>
+        <p>Valitse neljästä vaihtoehdosta oikea vastaus. Nopea ja tehokas tapa kerrata.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🪧</div>
+        <h3>Kääntökortit</h3>
+        <p>Käännä kortti ja arvioi itse. Nuolinäppäimet ← → tekevät kertaamisesta sujuvaa.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏗️</div>
+        <h3>Rakennuspeli</h3>
+        <p>Kokoa sana kirjainpaloista. Haastava ja hauska tapa oppia kirjoitusasu.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Omat sanapakettit</h3>
+        <p>Lisää omia JSON-paketteja helposti. Toimii mille tahansa kieliparille.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💾</div>
+        <h3>Edistymisen tallennus</h3>
+        <p>Sovellus muistaa tuloksesi jokaisesta paketista automaattisesti.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section class="section">
+    <p class="section-title">Asennus</p>
+    <h2 class="section-heading">Kolme askelta aloittamiseen</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Lataa asennusohjelma</h4>
+          <p>Mene <a href="https://github.com/M4NU3L10/sanapeli/releases/latest" target="_blank" rel="noopener">Releases-sivulle</a> ja lataa <strong>Sanastopeli Setup x.x.x.exe</strong>. Voit myös ladata kannettavan version (ei vaadi asennusta).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Asenna sovellus</h4>
+          <p>Käynnistä ladattu asennusohjelma ja seuraa ohjeita. Asennus luo pikakuvakkeen työpöydälle ja Käynnistä-valikkoon.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Aloita harjoittelu</h4>
+          <p>Käynnistä Sanastopeli, valitse sanapaketti ja pelimuoto — siinä kaikki!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Valmis aloittamaan?</h2>
+    <p>Lataa Sanastopeli ilmaiseksi ja ala harjoitella heti.</p>
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://github.com/M4NU3L10/sanapeli/releases/latest" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Lataa nyt — ilmaiseksi
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Sanastopeli · <a href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">Avoin lähdekoodi GitHubissa</a></p>
+</footer>
+
+</body>
+</html>
