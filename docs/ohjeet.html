@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanastopeli – Käyttöohjeet</title>
+  <meta name="description" content="Sanastopelin käyttöohjeet: asennus, aloitus, sanapakettien lisäys ja pelimuodot." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #a855f7;
+      --pink:   #ec4899;
+      --blue:   #60a5fa;
+      --bg:     #1a1a2e;
+      --glass:  rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.10);
+      --tp:     rgba(255,255,255,0.92);
+      --ts:     rgba(255,255,255,0.55);
+      --ok:     #4ade80;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-attachment: fixed;
+      color: var(--tp);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.34;
+      animation: float 20s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 600px; height: 600px; top: -150px; left: -150px; background: radial-gradient(circle, #a855f7, transparent 70%); }
+    .orb-2 { width: 500px; height: 500px; bottom: -100px; right: -120px; background: radial-gradient(circle, #ec4899, transparent 70%); animation-duration: 26s; animation-delay: -9s; }
+    .orb-3 { width: 380px; height: 380px; top: 40%; left: 50%; background: radial-gradient(circle, #60a5fa, transparent 70%); animation-duration: 23s; animation-delay: -5s; }
+
+    @keyframes float {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.08); }
+    }
+
+    .container { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15, 8, 35, 0.65); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+    }
+    nav .logo {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(130deg, var(--pink), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none;
+    }
+    nav .logo-by { font-size: 11px; font-weight: 600; color: var(--ts); margin-left: 8px; letter-spacing: 0.04em; vertical-align: middle; }
+    nav .spacer { flex: 1; }
+
+    nav a.nav-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: var(--tp); text-decoration: none;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
+      background: var(--glass); transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    nav a.nav-link:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.10); }
+
+    .hero { padding: 78px 0 42px; text-align: center; }
+    .hero-badge {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple);
+      background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 56px); font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.03em; margin-bottom: 16px;
+      background: linear-gradient(130deg, #fff 30%, var(--purple) 70%, var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { font-size: 17px; color: var(--ts); max-width: 680px; margin: 0 auto; line-height: 1.6; }
+
+    .section { padding: 18px 0 26px; }
+    .section-title {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple); margin-bottom: 10px;
+    }
+    .card {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 20px; padding: 24px 22px;
+    }
+    .card h2 { font-size: 22px; margin-bottom: 12px; letter-spacing: -0.01em; }
+    .card p { color: var(--ts); font-size: 14.5px; line-height: 1.65; margin-bottom: 10px; }
+    .card p:last-child { margin-bottom: 0; }
+
+    .steps { display: grid; gap: 12px; margin-top: 14px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px;
+    }
+    .step-num {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800;
+    }
+    .step-body h3 { font-size: 15px; margin-bottom: 4px; }
+    .step-body p { margin: 0; }
+
+    .list { display: grid; gap: 8px; margin-top: 10px; }
+    .list-item {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px; font-size: 14px; color: var(--ts);
+      line-height: 1.55;
+    }
+    .list-item strong { color: var(--tp); }
+
+    pre {
+      margin-top: 12px; background: rgba(0,0,0,0.28); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px; overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; line-height: 1.6; color: var(--tp);
+    }
+
+    .hint {
+      margin-top: 12px; color: var(--ok); font-size: 13px;
+      background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
+      border-radius: 12px; padding: 10px 12px;
+    }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 12px;
+      padding: 12px 18px; border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(130deg, var(--purple), var(--pink));
+      color: #fff; box-shadow: 0 8px 32px rgba(168,85,247,0.35);
+    }
+    .btn-secondary {
+      background: var(--glass); border: 1px solid var(--border); color: var(--tp);
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 24px;
+      text-align: center; font-size: 13px; color: var(--ts); margin-top: 30px;
+    }
+    footer a { color: var(--purple); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 620px) {
+      .hero { padding-top: 56px; }
+      .card { padding: 18px 16px; }
+      .step { padding: 12px; }
+    }
+
+    /* --- Eväste-popup --- */
+    #evaste-popup {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 48px); max-width: 680px;
+      background: rgba(15, 8, 35, 0.92); backdrop-filter: blur(24px);
+      border: 1px solid rgba(168,85,247,0.35); border-radius: 18px;
+      padding: 18px 22px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      font-size: 13px; line-height: 1.5; z-index: 9999;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(168,85,247,0.1);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    #evaste-popup.hide { opacity: 0; transform: translateX(-50%) translateY(16px); pointer-events: none; }
+    #evaste-popup p { flex: 1; min-width: 200px; color: rgba(255,255,255,0.65); margin: 0; }
+    #evaste-popup p a { color: var(--purple); text-decoration: none; }
+    #evaste-popup p a:hover { text-decoration: underline; }
+    #evaste-popup .evaste-napit { display: flex; gap: 8px; flex-shrink: 0; }
+    #evaste-hylkaa {
+      background: transparent; color: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.15); padding: 8px 16px;
+      border-radius: 10px; font-size: 13px; cursor: pointer;
+      font-family: inherit; transition: color 0.2s, border-color 0.2s;
+    }
+    #evaste-hylkaa:hover { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.3); }
+    #evaste-hyvaksy {
+      background: linear-gradient(130deg, var(--purple), var(--pink));
+      color: #fff; border: none; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; box-shadow: 0 4px 16px rgba(168,85,247,0.4);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #evaste-hyvaksy:hover { box-shadow: 0 6px 24px rgba(168,85,247,0.6); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<nav>
+  <div>
+    <a href="index.html" class="logo">Sanastopeli</a>
+    <span class="logo-by">by M4NU3L10</span>
+  </div>
+  <div class="spacer"></div>
+  <a class="nav-link" href="index.html">← Takaisin etusivulle</a>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <div class="hero-badge">Käyttöohjeet</div>
+    <h1>Näin käytät Sanastopeliä</h1>
+  </section>
+
+  <section class="section" id="asennus">
+    <p class="section-title">1. Asennus</p>
+    <div class="card">
+      <h2>Asenna suoraan tältä sivustolta</h2>
+      <p>Asennus tapahtuu painamalla etusivun <strong>Lataa Sanastopeli</strong> -painiketta.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Avaa etusivu</h3>
+            <p>Siirry takaisin etusivulle ja paina <strong>Lataa Sanastopeli</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Käynnistä asennusohjelma</h3>
+            <p>Avaa ladattu <strong>Sanastopeli Setup 1.0.0.exe</strong> ja seuraa asennusvaiheet.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Käynnistä sovellus</h3>
+            <p>Asennuksen jälkeen avaa Sanastopeli normaalisti työpöydältä tai Käynnistä-valikosta.</p>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Vaatimus: Windows 10 tai uudempi (x64).</p>
+    </div>
+  </section>
+
+  <section class="section" id="aloitus">
+    <p class="section-title">2. Käytön aloitus</p>
+    <div class="card">
+      <h2>Pelaaminen käyntiin</h2>
+      <div class="list">
+        <div class="list-item"><strong>Valitse sanapaketti</strong> aloitusnäkymästä.</div>
+        <div class="list-item"><strong>Valitse pelimuoto</strong> alavalikosta (kääntökortit, rakennuspeli, monivalinta tai kirjoitus).</div>
+        <div class="list-item"><strong>Paina Aloita</strong> ja vastaa sanoihin pelimuodon mukaan.</div>
+        <div class="list-item"><strong>Edistyminen tallentuu automaattisesti</strong> jokaiselle paketille.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sanapaketit">
+    <p class="section-title">3. Uusien sanojen lisääminen</p>
+    <div class="card">
+      <h2>Lisää omia sanapaketteja (.json)</h2>
+      <p>Sovelluksen oman ohjeen mukaan voit lisätä paketin kahdella tavalla:</p>
+      <div class="list">
+        <div class="list-item"><strong>Tapa 1 – ⬇️ Tuo paketti:</strong> Paina sovelluksessa <strong>Tuo paketti</strong> ja valitse JSON-tiedosto. Paketti kopioituu automaattisesti oikeaan kansioon.</div>
+        <div class="list-item"><strong>Tapa 2 – 📂 Avaa kansio:</strong> Paina <strong>Avaa kansio</strong>, kopioi JSON-tiedosto avautuvaan kansioon ja käynnistä sovellus uudelleen.</div>
+      </div>
+      <p style="margin-top:12px;">Paketin JSON-rakenne:</p>
+      <pre>{
+  "name": "Paketti nimi",
+  "sourceLanguage": "Suomi",
+  "targetLanguage": "Saksa",
+  "sourceFlagEmoji": "🇫🇮",
+  "targetFlagEmoji": "🇩🇪",
+  "words": [
+    { "source": "talo", "target": "das Haus", "article": "das", "word": "Haus" },
+    { "source": "mielellään", "target": "gern", "article": null, "word": "gern" }
+  ]
+}</pre>
+    </div>
+  </section>
+
+  <section class="section" id="pelimuodot">
+    <p class="section-title">4. Pelimuodot</p>
+    <div class="card">
+      <h2>Valitse itselle sopiva tapa harjoitella</h2>
+      <div class="list">
+        <div class="list-item"><strong>✏️ Kirjoitus:</strong> Kirjoita käännös itse (artikkeli voidaan hyväksyä joustavasti).</div>
+        <div class="list-item"><strong>🔡 Monivalinta:</strong> Valitse oikea vastaus vaihtoehdoista.</div>
+        <div class="list-item"><strong>🪧 Kääntökortit:</strong> Käännä kortti ja arvioi oma osaaminen (← ja → toimivat pikanäppäiminä).</div>
+        <div class="list-item"><strong>🏗️ Rakennuspeli:</strong> Rakenna sana kirjainpaloista oikeaan muotoon.</div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-primary" href="index.html">← Etusivulle</a>
+        <a class="btn btn-secondary" href="Sanastopeli%20Setup%201.0.0.exe" download>Lataa Sanastopeli</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Sanastopeli · Tekijä <a href="https://github.com/M4NU3L10" target="_blank" rel="noopener">M4NU3L10</a> · <a href="tietosuojaseloste.html">Tietosuojaseloste</a></p>
+</footer>
+
+<!-- Eväste-popup -->
+<div id="evaste-popup" role="dialog" aria-label="Evästeilmoitus">
+  <p>Käytämme <strong style="color:rgba(255,255,255,0.85)">Microsoft Clarity</strong> -analytiikkaa sivuston kehittämiseen. Se kerää kävijätietoja evästeiden avulla. Lue <a href="tietosuojaseloste.html">tietosuojaseloste</a>.</p>
+  <div class="evaste-napit">
+    <button id="evaste-hylkaa" onclick="evasteHylkaa()">Hylkää</button>
+    <button id="evaste-hyvaksy" onclick="evasteHyvaksy()">Hyväksy</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var v = localStorage.getItem('evaste-valinta');
+    if (v === 'hyvaksytty') { document.getElementById('evaste-popup').style.display = 'none'; lataaClarity(); }
+    else if (v === 'hylatty') { document.getElementById('evaste-popup').style.display = 'none'; }
+  })();
+
+  function evasteHyvaksy() {
+    localStorage.setItem('evaste-valinta', 'hyvaksytty');
+    var p = document.getElementById('evaste-popup');
+    p.classList.add('hide');
+    setTimeout(function(){ p.style.display = 'none'; }, 300);
+    lataaClarity();
+  }
+
+  function evasteHylkaa() {
+    localStorage.setItem('evaste-valinta', 'hylatty');
+    var p = document.getElementById('evaste-popup');
+    p.classList.add('hide');
+    setTimeout(function(){ p.style.display = 'none'; }, 300);
+  }
+
+  function lataaClarity() {
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w1qh7egimq");
+  }
+</script>
+
+</body>
+</html>

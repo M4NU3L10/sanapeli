@@ -60,6 +60,13 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     nav .logo-by { font-size: 11px; font-weight: 600; color: var(--ts); margin-left: 8px; letter-spacing: 0.04em; vertical-align: middle; }
     nav .spacer { flex: 1; }
+    nav a.docs-link {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: var(--tp); text-decoration: none;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
+      background: var(--glass); transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    nav a.docs-link:hover { color: var(--tp); border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.10); }
     nav a.gh-link {
       display: flex; align-items: center; gap: 7px;
       font-size: 13px; font-weight: 600; color: var(--ts); text-decoration: none;
@@ -161,6 +168,38 @@
       .hero { padding: 60px 0 50px; }
       .btn { padding: 12px 22px; font-size: 14px; }
     }
+
+    /* --- Eväste-popup --- */
+    #evaste-popup {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 48px); max-width: 680px;
+      background: rgba(15, 8, 35, 0.92); backdrop-filter: blur(24px);
+      border: 1px solid rgba(168,85,247,0.35); border-radius: 18px;
+      padding: 18px 22px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      font-size: 13px; line-height: 1.5; z-index: 9999;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(168,85,247,0.1);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    #evaste-popup.hide { opacity: 0; transform: translateX(-50%) translateY(16px); pointer-events: none; }
+    #evaste-popup p { flex: 1; min-width: 200px; color: rgba(255,255,255,0.65); margin: 0; }
+    #evaste-popup p a { color: var(--purple); text-decoration: none; }
+    #evaste-popup p a:hover { text-decoration: underline; }
+    #evaste-popup .evaste-napit { display: flex; gap: 8px; flex-shrink: 0; }
+    #evaste-hylkaa {
+      background: transparent; color: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.15); padding: 8px 16px;
+      border-radius: 10px; font-size: 13px; cursor: pointer;
+      font-family: inherit; transition: color 0.2s, border-color 0.2s;
+    }
+    #evaste-hylkaa:hover { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.3); }
+    #evaste-hyvaksy {
+      background: linear-gradient(130deg, var(--purple), var(--pink));
+      color: #fff; border: none; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; box-shadow: 0 4px 16px rgba(168,85,247,0.4);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #evaste-hyvaksy:hover { box-shadow: 0 6px 24px rgba(168,85,247,0.6); transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -178,6 +217,7 @@
     <span class="logo-by">by M4NU3L10</span>
   </div>
   <div class="spacer"></div>
+  <a class="docs-link" href="ohjeet.html">Ohjeet</a>
   <a class="gh-link" href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
       <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
@@ -200,6 +240,9 @@
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
         Lataa Sanastopeli
+      </a>
+      <a class="btn btn-secondary" href="ohjeet.html">
+        Käyttöohjeet
       </a>
     </div>
     <p class="version-note">v1.0.0 · Windows 10/11 (x64) · Ilmainen</p>
@@ -290,8 +333,48 @@
 </div>
 
 <footer>
-  <p>Sanastopeli · Tekijä <a href="https://github.com/M4NU3L10" target="_blank" rel="noopener">M4NU3L10</a> · <a href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">Avoin lähdekoodi GitHubissa</a></p>
+  <p>Sanastopeli · Tekijä <a href="https://github.com/M4NU3L10" target="_blank" rel="noopener">M4NU3L10</a> · <a href="https://github.com/M4NU3L10/sanapeli" target="_blank" rel="noopener">Avoin lähdekoodi GitHubissa</a> · <a href="tietosuojaseloste.html">Tietosuojaseloste</a></p>
 </footer>
+
+<!-- Eväste-popup -->
+<div id="evaste-popup" role="dialog" aria-label="Evästeilmoitus">
+  <p>Käytämme <strong style="color:rgba(255,255,255,0.85)">Microsoft Clarity</strong> -analytiikkaa sivuston kehittämiseen. Se kerää kävijätietoja evästeiden avulla. Lue <a href="tietosuojaseloste.html">tietosuojaseloste</a>.</p>
+  <div class="evaste-napit">
+    <button id="evaste-hylkaa" onclick="evasteHylkaa()">Hylkää</button>
+    <button id="evaste-hyvaksy" onclick="evasteHyvaksy()">Hyväksy</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var v = localStorage.getItem('evaste-valinta');
+    if (v === 'hyvaksytty') { document.getElementById('evaste-popup').style.display = 'none'; lataaClarity(); }
+    else if (v === 'hylatty') { document.getElementById('evaste-popup').style.display = 'none'; }
+  })();
+
+  function evasteHyvaksy() {
+    localStorage.setItem('evaste-valinta', 'hyvaksytty');
+    var p = document.getElementById('evaste-popup');
+    p.classList.add('hide');
+    setTimeout(function(){ p.style.display = 'none'; }, 300);
+    lataaClarity();
+  }
+
+  function evasteHylkaa() {
+    localStorage.setItem('evaste-valinta', 'hylatty');
+    var p = document.getElementById('evaste-popup');
+    p.classList.add('hide');
+    setTimeout(function(){ p.style.display = 'none'; }, 300);
+  }
+
+  function lataaClarity() {
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w1qh7egimq");
+  }
+</script>
 
 </body>
 </html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanastopeli – Tietosuojaseloste</title>
+  <meta name="description" content="Sanastopeli-sivuston tietosuojaseloste. GDPR:n artikla 13 mukainen seloste henkilötietojen käsittelystä." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #a855f7;
+      --pink:   #ec4899;
+      --blue:   #60a5fa;
+      --glass:  rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.10);
+      --tp:     rgba(255,255,255,0.92);
+      --ts:     rgba(255,255,255,0.55);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-attachment: fixed;
+      color: var(--tp);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25;
+      animation: float 20s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 600px; height: 600px; top: -150px; left: -150px; background: radial-gradient(circle, #a855f7, transparent 70%); }
+    .orb-2 { width: 500px; height: 500px; bottom: -100px; right: -120px; background: radial-gradient(circle, #ec4899, transparent 70%); animation-duration: 26s; animation-delay: -9s; }
+
+    @keyframes float {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.08); }
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15, 8, 35, 0.65); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+    }
+    nav .logo {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(130deg, var(--pink), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none;
+    }
+    nav .logo-by { font-size: 11px; font-weight: 600; color: var(--ts); margin-left: 8px; letter-spacing: 0.04em; vertical-align: middle; }
+    nav .spacer { flex: 1; }
+    nav a.nav-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: var(--tp); text-decoration: none;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
+      background: var(--glass); transition: border-color 0.2s, background 0.2s;
+    }
+    nav a.nav-link:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.10); }
+
+    .container { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 0 24px 80px; }
+
+    .hero { padding: 64px 0 40px; }
+    .hero-badge {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple);
+      background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 50px); font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.03em; margin-bottom: 12px;
+      background: linear-gradient(130deg, #fff 30%, var(--purple) 70%, var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero .meta { font-size: 13px; color: var(--ts); }
+
+    /* Section blocks */
+    .section { margin-bottom: 12px; }
+    .section-inner {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 20px; padding: 26px 28px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--purple); margin-bottom: 10px;
+    }
+    .section-inner h2 {
+      font-size: 18px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em;
+    }
+    .section-inner p {
+      font-size: 14px; color: var(--ts); line-height: 1.7; margin-bottom: 10px;
+    }
+    .section-inner p:last-child { margin-bottom: 0; }
+    .section-inner p strong { color: var(--tp); }
+    .section-inner a { color: var(--purple); text-decoration: none; word-break: break-all; }
+    .section-inner a:hover { text-decoration: underline; }
+
+    .item-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+    .item {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 10px; padding: 9px 12px;
+      font-size: 13.5px; color: var(--ts); line-height: 1.5;
+    }
+    .item strong { color: var(--tp); }
+
+    .highlight {
+      background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 12px; padding: 12px 14px;
+      font-size: 13.5px; color: rgba(255,255,255,0.7); line-height: 1.6;
+      margin-top: 10px;
+    }
+    .highlight a { color: var(--purple); }
+
+    /* Rights grid */
+    .rights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .right-item {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px;
+    }
+    .right-item .art { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: 0.05em; margin-bottom: 4px; }
+    .right-item .name { font-size: 13.5px; font-weight: 600; color: var(--tp); margin-bottom: 4px; }
+    .right-item .desc { font-size: 12.5px; color: var(--ts); line-height: 1.5; }
+
+    /* Authority block */
+    .authority {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px; margin-top: 12px;
+    }
+    .authority .auth-name { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .auth-row { display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin-bottom: 6px; }
+    .auth-row:last-child { margin-bottom: 0; }
+    .auth-label { color: var(--ts); min-width: 80px; flex-shrink: 0; }
+    .auth-val { color: var(--tp); }
+    .auth-val a { color: var(--purple); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 24px;
+      text-align: center; font-size: 13px; color: var(--ts);
+      position: relative; z-index: 1;
+    }
+    footer a { color: var(--purple); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 580px) {
+      .rights-grid { grid-template-columns: 1fr; }
+      .section-inner { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<nav>
+  <div>
+    <a href="index.html" class="logo">Sanastopeli</a>
+    <span class="logo-by">by M4NU3L10</span>
+  </div>
+  <div class="spacer"></div>
+  <a class="nav-link" href="index.html">← Etusivulle</a>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <div class="hero-badge">Juridinen</div>
+    <h1>Tietosuojaseloste</h1>
+    <p class="meta">Viimeksi päivitetty: 26.3.2026</p>
+    <p class="meta">Tämä tietosuojaseloste kuvaa, miten henkilötietojasi käsitellään tällä sivustolla. Seloste on laadittu EU:n yleisen tietosuoja-asetuksen (GDPR, asetus 2016/679) 13 artiklan sekä Suomen tietosuojalain (1050/2018) mukaisesti.</p>
+  </section>
+
+  <!-- 1 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">1 — Rekisterinpitäjä</p>
+      <h2>Rekisterinpitäjä</h2>
+      <p>Rekisterinpitäjänä toimii sivuston yksityinen ylläpitäjä. Sivusto on harrastusluonteinen projekti, jonka taustalla ei ole yrityksiä tai muuta organisaatiota.</p>
+      <p><strong>Huom.</strong> Rekisterinpitäjän täysi nimi ei ole julkisesti saatavilla yksityisyydensuojan vuoksi. Rekisterinpitäjän tavoittaa alla olevasta sähköpostiosoitteesta, ja henkilöllisyys voidaan tarvittaessa vahvistaa yksityisesti rekisteröityä koskevan pyynnön käsittelyn yhteydessä. Tämä menettely perustuu tasapainoon rekisterinpitäjän yksityisyydensuojan ja rekisteröityjen oikeuksien välillä.</p>
+      <div class="highlight">
+        📧 Yhteydenotot tietosuoja-asioissa: <a href="mailto:ditzy-tint-conceal@duck.com">ditzy-tint-conceal@duck.com</a><br>
+        Pyyntöihin vastataan ilman aiheetonta viivytystä ja viimeistään <strong>kuukauden</strong> kuluessa pyynnön vastaanottamisesta. Määräaikaa voidaan tarvittaessa jatkaa kahdella kuukaudella, jos pyyntö on erityisen monimutkainen.
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">2 — Tietosuojavastaava</p>
+      <h2>Tietosuojavastaava</h2>
+      <p>Rekisterinpitäjällä ei ole nimettyä tietosuojavastaavaa. GDPR:n 37 artiklan mukainen velvollisuus nimetä tietosuojavastaava ei koske yksityishenkilö-rekisterinpitäjää tässä laajuudessa. Tietosuoja-asioissa voi ottaa yhteyttä kohdassa 1 mainittuun sähköpostiosoitteeseen.</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">3 — Käsiteltävät henkilötiedot ja niiden lähde</p>
+      <h2>Käsiteltävät henkilötiedot ja niiden lähde</h2>
+      <p>Tiedot kerätään automaattisesti rekisteröityjen selaimesta ja päätelaitteesta heidän vieraillessaan sivustolla. Tietoja ei saada mistä muualta. Sivustolla ei ole kirjautumista, lomakkeita, kommentointia eikä muita tiedonkeruuratkaisuja.</p>
+      <p><strong>Microsoft Clarity -analytiikkapalvelu kerää seuraavia tietoja:</strong></p>
+      <div class="item-list">
+        <div class="item">IP-osoite (anonymisoituna: viimeinen oktetti poistetaan ennen tallennusta)</div>
+        <div class="item">Selaintyyppi ja -versio</div>
+        <div class="item">Käyttöjärjestelmä ja laitetyyppi (tietokone, puhelin, tabletti)</div>
+        <div class="item">Sivulataukset, aikaleimat ja sivustolla vietetty aika</div>
+        <div class="item">Navigointipolut sivuston sisällä</div>
+        <div class="item">Istuntotallenteet: hiiren liikkeet, klikkaukset ja vieritys</div>
+        <div class="item">Lämpökarttatiedot</div>
+      </div>
+      <p>Sivusto ei kerää arkaluonteisia henkilötietoja (esim. terveys, uskonto, etninen alkuperä).</p>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">4 — Käsittelyn tarkoitus ja oikeusperuste</p>
+      <h2>Käsittelyn tarkoitus ja oikeusperuste</h2>
+      <p><strong>Tarkoitus:</strong> Tietoja käytetään yksinomaan sivuston teknisen toimivuuden seuraamisen ja käyttäjäkokemuksen kehittämiseen. Tietoja ei käytetä markkinointiin, profilointiin eikä muuhun kaupalliseen tarkoitukseen.</p>
+      <p><strong>Oikeusperuste:</strong> Käsittely perustuu rekisteröidyn suostumukseen (GDPR 6 artikla 1 kohta a). Suostumus pyydetään sivustolle saavuttaessa eväste-bannerin kautta. Suostumuksen voi peruuttaa milloin tahansa; peruuttaminen ei vaikuta ennen sitä suoritetun käsittelyn lainmukaisuuteen.</p>
+      <div class="highlight">
+        ℹ️ Tietojen antaminen ei ole lakisääteinen eikä sopimukseen perustuva vaatimus. Sivustoa voi käyttää myös <strong>hylkäämällä evästesuostumuksen</strong>, jolloin Clarity-analytiikkaa ei kerätä lainkaan. Hylkäämisestä ei aiheudu seurauksia sivuston käytettävyyden kannalta.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">5 — Henkilötietojen vastaanottajat</p>
+      <h2>Henkilötietojen vastaanottajat</h2>
+      <p>Tietoja ei myydä eikä luovuteta kolmansille osapuolille markkinointitarkoituksiin.</p>
+      <div class="item-list">
+        <div class="item"><strong>Microsoft Corporation</strong> — Clarity-palvelun tarjoaja, toimii tietojenkäsittelijänä rekisterinpitäjän lukuun kirjallisen käsittelysopimuksen nojalla (GDPR 28 artikla)</div>
+        <div class="item"><strong>Viranomaiset</strong> — ainoastaan pakottavan lainsäädännön niin edellyttäessä</div>
+      </div>
+      <p>Rekisterinpitäjä itse näkee Clarity-hallintapaneelin kautta anonymisoitua koostettua analytiikkadataa, mutta ei yksittäisiä tunnistettavia henkilötietoja.</p>
+      <p style="margin-top:12px;">Microsoft voi käyttää dataa myös omien palveluidensa kehittämiseen. Lisätietoja: <a href="https://privacy.microsoft.com/fi-fi/privacystatement" target="_blank" rel="noopener">privacy.microsoft.com/fi-fi/privacystatement</a></p>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">6 — Tietojen siirto EU:n tai ETA:n ulkopuolelle</p>
+      <h2>Tietojen siirto EU:n tai ETA:n ulkopuolelle</h2>
+      <p>Microsoft Clarity siirtää henkilötietoja Euroopan talousalueen (ETA) ulkopuolelle, mukaan lukien Yhdysvaltoihin. Siirto perustuu Euroopan komission 4.6.2021 hyväksymiin vakiosopimuslausekkeisiin (Standard Contractual Clauses, SCC; komission täytäntöönpanopäätös 2021/914), jotka takaavat henkilötiedoille riittävän suojan tason (GDPR 46 artikla 2 kohta c).</p>
+      <p>Lisätietoja Microsoftin tiedonsiirtokäytännöistä: <a href="https://privacy.microsoft.com/fi-fi/privacystatement" target="_blank" rel="noopener">privacy.microsoft.com/fi-fi/privacystatement</a></p>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">7 — Tietojen säilytysaika</p>
+      <h2>Tietojen säilytysaika</h2>
+      <div class="item-list">
+        <div class="item"><strong>Istuntotallenteet:</strong> 30 vuorokautta, jonka jälkeen tallenteet poistetaan automaattisesti</div>
+        <div class="item"><strong>Lämpökarttatiedot ja muu analytiikkadata:</strong> 13 kuukautta</div>
+        <div class="item"><strong>Suosikkeihin merkityt tallenteet:</strong> 13 kuukautta</div>
+      </div>
+      <p style="margin-top:10px;">Näiden aikojen jälkeen tiedot poistetaan tai anonymisoidaan Microsoftin järjestelmissä. Rekisterinpitäjä ei itse tallenna henkilötietoja omille palvelimilleen tai laitteilleen.</p>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">8 — Automaattinen päätöksenteko ja profilointi</p>
+      <h2>Automaattinen päätöksenteko ja profilointi</h2>
+      <p>Sivustolla ei tehdä automaattisia päätöksiä, jotka vaikuttaisivat rekisteröityyn GDPR:n 22 artiklan tarkoittamalla tavalla. Microsoft Clarity kerää tietoja tilastollisiin tarkoituksiin eikä luo yksilöllisiä profiileja automaattista päätöksentekoa varten. Rekisterinpitäjä ei tee rekisteröityihin kohdistuvaa profilointia.</p>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">9 — Rekisteröityjen oikeudet</p>
+      <h2>Rekisteröityjen oikeudet</h2>
+      <p>Rekisteröityä koskevat seuraavat GDPR:n mukaiset oikeudet. Oikeuksia koskevat pyynnöt tulee lähettää osoitteeseen <a href="mailto:ditzy-tint-conceal@duck.com">ditzy-tint-conceal@duck.com</a>. Rekisterinpitäjä vastaa kuukauden kuluessa, ja voi tarvittaessa jatkaa määräaikaa kahdella lisäkuukaudella.</p>
+      <div class="rights-grid">
+        <div class="right-item">
+          <div class="art">Artikla 15</div>
+          <div class="name">Oikeus saada pääsy tietoihin</div>
+          <div class="desc">Oikeus tietää, mitä henkilötietojasi käsitellään, miten ja miksi.</div>
+        </div>
+        <div class="right-item">
+          <div class="art">Artikla 16</div>
+          <div class="name">Oikeus tietojen oikaisemiseen</div>
+          <div class="desc">Oikeus vaatia virheellisten tai puutteellisten tietojen korjaamista.</div>
+        </div>
+        <div class="right-item">
+          <div class="art">Artikla 17</div>
+          <div class="name">Oikeus tietojen poistamiseen / oikeus tulla unohdetuksi</div>
+          <div class="desc">Oikeus pyytää tietojesi poistamista, kun käsittelylle ei ole enää perustetta.</div>
+        </div>
+        <div class="right-item">
+          <div class="art">Artikla 18</div>
+          <div class="name">Oikeus käsittelyn rajoittamiseen</div>
+          <div class="desc">Oikeus pyytää käsittelyn rajoittamista tietyissä tilanteissa.</div>
+        </div>
+        <div class="right-item">
+          <div class="art">Artikla 20</div>
+          <div class="name">Oikeus siirtää tiedot järjestelmästä toiseen</div>
+          <div class="desc">Oikeus saada tietosi koneluettavassa muodossa ja siirtää ne toiselle rekisterinpitäjälle.</div>
+        </div>
+        <div class="right-item">
+          <div class="art">Artikla 7</div>
+          <div class="name">Oikeus peruuttaa suostumus</div>
+          <div class="desc">Oikeus peruuttaa suostumus milloin tahansa, esimerkiksi evästeasetuksista tai lähettämällä sähköpostia.</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top:14px;">
+        ⚠️ <strong>Käytännön rajoitus:</strong> Microsoft Clarity ei tue yksittäisten käyttäjien tietojen poistamista erikseen teknisen arkkitehtuurinsa vuoksi. Analytiikkaseurannan voi estää kokonaan hylkäämällä evästesuostumuksen, käyttämällä selaimen yksityistä tilaa tai asentamalla <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-opt-out" target="_blank" rel="noopener">Microsoft Clarity Opt-out -selainlaajennuksen</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">10 — Oikeus tehdä valitus valvontaviranomaiselle</p>
+      <h2>Oikeus tehdä valitus valvontaviranomaiselle</h2>
+      <p>Jos katsot, että henkilötietojasi on käsitelty tietosuojalainsäädännön vastaisesti, sinulla on oikeus tehdä valitus toimivaltaiselle tietosuojaviranomaiselle. Voit kääntyä Suomen viranomaisen puoleen tai oman asuinmaasi EU-tietosuojaviranomaisen puoleen.</p>
+      <div class="authority">
+        <div class="auth-name">🇫🇮 Suomen tietosuojavaltuutetun toimisto</div>
+        <div class="auth-row"><span class="auth-label">Verkkosivu</span><span class="auth-val"><a href="https://www.tietosuoja.fi" target="_blank" rel="noopener">www.tietosuoja.fi</a></span></div>
+        <div class="auth-row"><span class="auth-label">Sähköposti</span><span class="auth-val"><a href="mailto:tietosuoja@om.fi">tietosuoja@om.fi</a></span></div>
+        <div class="auth-row"><span class="auth-label">Puhelin</span><span class="auth-val">029 566 6700</span></div>
+        <div class="auth-row"><span class="auth-label">Postiosoite</span><span class="auth-val">PL 800, 00531 Helsinki</span></div>
+      </div>
+      <p style="margin-top:12px;">Luettelo kaikkien EU:n jäsenvaltioiden tietosuojaviranomaisista: <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_fi" target="_blank" rel="noopener">edpb.europa.eu/about-edpb/about-edpb/members_fi</a></p>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">11 — Tietoturva</p>
+      <h2>Tietoturva</h2>
+      <p>Rekisterinpitäjä ei itse tallenna henkilötietoja omille palvelimilleen. Kaikki käsittely tapahtuu Microsoft Clarity -palvelussa. Microsoft on sitoutunut EU:n tietosuoja-asetuksen noudattamiseen tietojenkäsittelijänä ja on sertifioitu ISO 27001 -tietoturvastandardin mukaisesti. Rekisterinpitäjällä ei ole pääsyä yksittäisiin tunnistettaviin käyttäjätietoihin, ainoastaan anonymisoituun koostettuun analytiikkadataan.</p>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-label">12 — Muutokset tietosuojaselosteeseen</p>
+      <h2>Muutokset tietosuojaselosteeseen</h2>
+      <p>Rekisterinpitäjä voi päivittää tätä tietosuojaselostetta käsittelytoimintojen muuttuessa tai lainsäädännön kehittyessä. Päivityspäivämäärä on merkitty selosteen alkuun. Merkittävistä muutoksista ilmoitetaan sivuston etusivulla. Suosittelemme tarkistamaan selosteen säännöllisesti.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Sanastopeli · Tekijä <a href="https://github.com/M4NU3L10" target="_blank" rel="noopener">M4NU3L10</a> · <a href="index.html">Etusivu</a></p>
+</footer>
+
+</body>
+</html>
