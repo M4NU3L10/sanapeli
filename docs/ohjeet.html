@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanastopeli – Käyttöohjeet</title>
-  <meta name="description" content="Sanastopelin käyttöohjeet: asennus, aloitus, sanapakettien lisäys ja pelimuodot." />
-  <style>
+  <title>Sanastopelin käyttöohjeet – Asennus, pelimuodot ja sanapakettien lisäys</title>
+  <meta name="description" content="Sanastopelin käyttöohjeet: kuinka asentaa, käyttää kääntökortteja, kirjoitusharjoitusta, monivalintaa ja rakennuspeliä. Ohjeet sanapakettien lisäämiseen JSON-muodossa." />
+  <meta name="keywords" content="Sanastopeli ohjeet, käyttöohjeet, asennus, kääntökortit käyttö, sanapaketti lisäys, sanaharjoitus ohjeet" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Sanastopelin käyttöohjeet" />
+  <meta property="og:description" content="Opettele käyttämään Sanastopelia: asennus, pelimuodot ja omien sanapaketitjen lisääminen." />
+  <meta property="og:type" content="article" />  <meta property=\"og:url\" content=\"https://m4nu3l10.github.io/sanapeli/ohjeet.html\" />
+  <meta name=\"canonical\" content=\"https://m4nu3l10.github.io/sanapeli/ohjeet.html\" />  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -193,6 +198,56 @@
     }
     #evaste-hyvaksy:hover { box-shadow: 0 6px 24px rgba(168,85,247,0.6); transform: translateY(-1px); }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Sanastopeli",
+        "item": "https://m4nu3l10.github.io/sanapeli/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Käyttöohjeet",
+        "item": "https://m4nu3l10.github.io/sanapeli/ohjeet.html"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Sanastopelin käyttöönotto ja pelit",
+    "description": "Opettele käyttämään Sanastopeliä: asenna, valitse pelimuoto ja aloita harjoittelemaan sanastoa.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Lataa ja asenna Sanastopeli",
+        "text": "Lataa Sanastopeli Setup -ohjelma etusivulta ja seuraa asennusohjeita."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Valitse sanapaketti",
+        "text": "Avaa sovellus ja valitse haluttu sanapaketti aloitusnäkymästä."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Valitse pelimuoto",
+        "text": "Valitse neljästä pelimuodosta: kirjoitus, monivalinta, kääntökortit tai rakennuspeli."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Aloita harjoittelu",
+        "text": "Paina Aloita ja vastaa sanoihin valitsemallasi pelimuodolla. Edistyminen tallentuu automaattisesti."
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <div class="orbs">
@@ -213,14 +268,14 @@
 <div class="container">
   <section class="hero">
     <div class="hero-badge">Käyttöohjeet</div>
-    <h1>Näin käytät Sanastopeliä</h1>
+    <h1>Näin käytät Sanastopelia: kääntökortit, sanaharjoitus ja pelimuodot</h1>
   </section>
 
   <section class="section" id="asennus">
     <p class="section-title">1. Asennus</p>
     <div class="card">
-      <h2>Asenna suoraan tältä sivustolta</h2>
-      <p>Asennus tapahtuu painamalla etusivun <strong>Lataa Sanastopeli</strong> -painiketta.</p>
+      <h2>Asenna sanaharjoittelusovellus suoraan tältä sivustolta</h2>
+      <p>Kääntökortti- ja sanaharjoitussovelluksen asennus tapahtuu painamalla etusivun <strong>Lataa Sanastopeli</strong> -painiketta.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
@@ -251,12 +306,12 @@
   <section class="section" id="aloitus">
     <p class="section-title">2. Käytön aloitus</p>
     <div class="card">
-      <h2>Pelaaminen käyntiin</h2>
+      <h2>Pelaaminen käunteohjeet ja pelimuotojen valinta</h2>
       <div class="list">
-        <div class="list-item"><strong>Valitse sanapaketti</strong> aloitusnäkymästä.</div>
-        <div class="list-item"><strong>Valitse pelimuoto</strong> alavalikosta (kääntökortit, rakennuspeli, monivalinta tai kirjoitus).</div>
-        <div class="list-item"><strong>Paina Aloita</strong> ja vastaa sanoihin pelimuodon mukaan.</div>
-        <div class="list-item"><strong>Edistyminen tallentuu automaattisesti</strong> jokaiselle paketille.</div>
+        <div class="list-item"><strong>Valitse sanapaketti</strong> alkunäkymästä — valittavissa eri kieliparit, esim. saksa, ranska, jne.</div>
+        <div class="list-item"><strong>Valitse pelimuoto</strong> alavalikosta: kääntökortit, rakennuspeli, monivalinta tai kirjoitusharjoitus.</div>
+        <div class="list-item"><strong>Paina Aloita</strong> ja vastaa sanoihin valitsemallasi pelimuodolla. Jokainen pelimuoto toimii eri tavalla.</div>
+        <div class="list-item"><strong>Edistyminen tallentuu automaattisesti</strong> jokaiselle sanapakettille, joten voit jatkaa harjoittelua milloin tahansa.</div>
       </div>
     </div>
   </section>
@@ -264,13 +319,13 @@
   <section class="section" id="sanapaketit">
     <p class="section-title">3. Uusien sanojen lisääminen</p>
     <div class="card">
-      <h2>Lisää omia sanapaketteja (.json)</h2>
-      <p>Sovelluksen oman ohjeen mukaan voit lisätä paketin kahdella tavalla:</p>
+      <h2>Lisää omia sanapaketteja ja sanaharjoittelumateriaalia (.json)</h2>
+      <p>Sanastopeli-sovellukseen voit lisätä omia JSON-sanapakettekansiaan. Sovelluksen ohjeen mukaan sanaharjoittelu tapahtuu kahdella tavalla:</p>
       <div class="list">
-        <div class="list-item"><strong>Tapa 1 – ⬇️ Tuo paketti:</strong> Paina sovelluksessa <strong>Tuo paketti</strong> ja valitse JSON-tiedosto. Paketti kopioituu automaattisesti oikeaan kansioon.</div>
-        <div class="list-item"><strong>Tapa 2 – 📂 Avaa kansio:</strong> Paina <strong>Avaa kansio</strong>, kopioi JSON-tiedosto avautuvaan kansioon ja käynnistä sovellus uudelleen.</div>
+        <div class="list-item"><strong>Tapa 1 – ⬋️ Tuo paketti:</strong> Paina sovelluksessa <strong>Tuo paketti</strong> ja valitse JSON-tiedosto. Sanapaketit kopioituvat automaattisesti oikeaan kansioon.</div>
+        <div class="list-item"><strong>Tapa 2 – 📂 Avaa kansio:</strong> Paina <strong>Avaa kansio</strong>, kopioi JSON-sanapaketit avautuvaan kansioon ja käynnistä sovellus uudelleen.</div>
       </div>
-      <p style="margin-top:12px;">Paketin JSON-rakenne:</p>
+      <p style="margin-top:12px;">Sanapaketin JSON-rakenne ja muoto:</p>
       <pre>{
   "name": "Paketti nimi",
   "sourceLanguage": "Suomi",
@@ -288,17 +343,17 @@
   <section class="section" id="pelimuodot">
     <p class="section-title">4. Pelimuodot</p>
     <div class="card">
-      <h2>Valitse itselle sopiva tapa harjoitella</h2>
+      <h2>Kaikki pelimuodot: kääntökortit, monivalinta, kirjoitus ja rakennuspeli</h2>
       <div class="list">
-        <div class="list-item"><strong>✏️ Kirjoitus:</strong> Kirjoita käännös itse (artikkeli voidaan hyväksyä joustavasti).</div>
-        <div class="list-item"><strong>🔡 Monivalinta:</strong> Valitse oikea vastaus vaihtoehdoista.</div>
-        <div class="list-item"><strong>🪧 Kääntökortit:</strong> Käännä kortti ja arvioi oma osaaminen (← ja → toimivat pikanäppäiminä).</div>
-        <div class="list-item"><strong>🏗️ Rakennuspeli:</strong> Rakenna sana kirjainpaloista oikeaan muotoon.</div>
+        <div class="list-item"><strong>✏️ Kirjoitusharjoitus:</strong> Kirjoita käännös itse — tehokas tapa oppia kirjoitusta ja sanastoa. Artikkeli voidaan hyväksyä joustavasti.</div>
+        <div class="list-item"><strong>🔡 Monivalinta-harjoitus:</strong> Valitse oikea vastaus vaihtoehdoista — nopea ja tehokas sanaharjoitus.</div>
+        <div class="list-item"><strong>🪧 Kääntökortit:</strong> Käännä kortti ja arvioi oma osaaminen — klassinen kertaamisen muoto (vasen ja oikea nuoli toimivat pikanuolikkeina).</div>
+        <div class="list-item"><strong>🏗️ Rakennuspeli:</strong> Rakenna sana kirjainpaloista oikeaan muotoon — haastava ja hauska sanaharjoitus.</div>
       </div>
 
       <div class="btn-row">
         <a class="btn btn-primary" href="index.html">← Etusivulle</a>
-        <a class="btn btn-secondary" href="Sanastopeli%20Setup%201.0.0.exe" download>Lataa Sanastopeli</a>
+        <a class="btn btn-secondary" href="Sanastopeli%20Setup%201.0.0.exe" download>💧 Lataa Sanastopeli – ilmainen kääntökorttisovellus</a>
       </div>
     </div>
   </section>

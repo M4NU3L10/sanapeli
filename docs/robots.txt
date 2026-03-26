@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /sanapeli/
+
+# Sitemap
+Sitemap: https://m4nu3l10.github.io/sanapeli/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow
+Disallow: /assets/
+Disallow: /build/
+Disallow: /docs/assets/
